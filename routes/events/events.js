@@ -208,5 +208,22 @@ router.post('/register', verifyToken, async (req, res, next) => {
     client.close();
 });
 
+router.delete('/register', verifyToken, async (req, res, next) => {
+    const client = new MongoClient(MONGODB_URI, { useNewUrlParser: true });
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        const col = db.collection('register');
+        await col.deleteOne({
+            userId: req.body.userId,
+            eventId: req.body.eventId,
+            createdAt: dateNow()
+        });
+    } catch (err) {
+        res.send({ error: err });
+    }
+    client.close();
+});
+
 
 module.exports = router;
