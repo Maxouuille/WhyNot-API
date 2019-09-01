@@ -42,6 +42,24 @@ router.get('/login', async function (req, res, next) {
     client.close();
 });
 
+router.get('/:email', async function (req, res, next) {
+    const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        const col = db.collection('users');
+        let result = await col.find({email: req.params.email}).toArray();
+        res.send({
+            users: result
+        });
+    } catch (err) {
+        res.send({
+            error: err
+        });
+    }
+    client.close();
+});
+
 /* SIGN IN */
 router.post('/login', async function (req, res) {
     const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
