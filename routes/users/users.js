@@ -170,5 +170,30 @@ router.delete('/:id', async (req, res, next) => {
     client.close();
 });
 
+router.patch('/viewers', verifyToken, async (req, res, next) => {
+    const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        const col = db.collection('users');
+        let insertResult = await col.updateOne(
+            {_id: ObjectId(req.query._id)},
+            {
+                $push: {
+                    viewers: {
+                        _id: req.token._id
+                    }
+                }
+            });
+        res.send({
+            error: null
+        });
+    } catch (err) {
+        res.send({
+            error: err
+        })
+    }
+    client.close();
+});
 
 module.exports = router;
