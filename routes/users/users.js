@@ -50,9 +50,10 @@ router.get('/user', async function (req, res, next) {
         const col = db.collection('users');
 
         let result = await col.find({email: req.query.email}).toArray();
+        console.log(req.query.email)
         res.send({
             users: result,
-            test: req.query.email
+
         });
     } catch (err) {
         res.send({
