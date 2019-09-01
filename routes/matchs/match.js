@@ -30,16 +30,16 @@ router.get('/', verifyToken, async (req, res, next) => {
 });
 
 
-router.get('/user', verifyToken, async (req, res, next) => {
+router.get('/:id', verifyToken, async (req, res, next) => {
     const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
     try {
         await client.connect();
         const db = client.db(dbName);
         const col = db.collection('matchs');
-        let result = await col.find({ $or: [ {emailUser1: ObjectId(req.body.email)}, {emailUser2: ObjectId(req.body.email)} ] }).toArray();
+        let result = await col.find({ $or: [ {emailUser1: ObjectId(req.params.id)}, {emailUser2: ObjectId(req.params.id)} ] }).toArray();
         
         res.send({
-            matchs: result,
+            event: result,
             error: null
         });
 
