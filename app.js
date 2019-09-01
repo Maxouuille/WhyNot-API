@@ -9,6 +9,8 @@ var reportRouter = require('./routes/reports/report');
 var eventsRouter = require('./routes/events/events');
 var adminRouter = require('./routes/users/admin/adminAuth');
 var mailRouter = require('./routes/mail/mail');
+var chatsRouter = require('./routes/chats/chat');
+var matchsRouter = require('./routes/matchs/match');
 var testRouter = require('./routes/test/single');
 var app = express();
 
@@ -24,6 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRouter);
 app.use('/mail', mailRouter);
+app.use('/chats', chatsRouter);
+app.use('/matchs', matchsRouter);
 app.use('/report', reportRouter);
 app.use('/events', eventsRouter);
 app.use('/users/admin', adminRouter);
