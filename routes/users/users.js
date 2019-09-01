@@ -49,11 +49,10 @@ router.get('/user', async function (req, res, next) {
         const db = client.db(dbName);
         const col = db.collection('users');
 
-        let result = await col.find({email: req.query.email}).toArray();
-        console.log(req.query.email)
+        let result = await col.find({email: req.params.email}).toArray();
+        console.log(req.params.email)
         res.send({
             users: result,
-
         });
     } catch (err) {
         res.send({
