@@ -52,7 +52,7 @@ router.get('/user', async function (req, res, next) {
         let result = await col.find({email: req.query.email}).toArray();
         res.send({
             users: result,
-            req.query.email
+            test: req.query.email
         });
     } catch (err) {
         res.send({
