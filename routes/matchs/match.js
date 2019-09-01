@@ -29,4 +29,27 @@ router.get('/', verifyToken, async (req, res, next) => {
     client.close();
 });
 
+
+router.get('/:id', verifyToken, async (req, res, next) => {
+    const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        const col = db.collection('matchs');
+        let result = await col.find({idUser: ObjectId(req.params.id)}).toArray();
+        res.send({
+            event: result,
+            error: null
+        });
+        let result2 = await col.find({idUser2: ObjectId(req.params.id)}).toArray();
+        res.send({
+            event: result,
+            error: null
+        });
+    } catch (err) {
+        res.send(err);
+    }
+    client.close();
+});
+
 module.exports = router;
