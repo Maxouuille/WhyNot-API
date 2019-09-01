@@ -36,7 +36,7 @@ router.get('/:id', verifyToken, async (req, res, next) => {
         await client.connect();
         const db = client.db(dbName);
         const col = db.collection('matchs');
-        let result = await col.find({ $or: [ {emailUser1: ObjectId(req.params.id)}, {emailUser2: ObjectId(req.params.id)} ] }).toArray();
+        let result = await col.find({ $or: [ {emailUser1: req.params.id}, {emailUser2: req.params.id} ] }).toArray();
         
         res.send({
             event: result,
