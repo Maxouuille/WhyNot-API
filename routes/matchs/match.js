@@ -28,3 +28,5 @@ router.get('/', verifyToken, async (req, res, next) => {
     }
     client.close();
 });
+
+module.exports = router;
