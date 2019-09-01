@@ -115,6 +115,7 @@ router.post('/signup', upload.single('image'), async function (req, res, next) {
             updatedAt: null,
             isDeleted: false,
             reported: false,
+            viewers: [],
             banned: false
 
         });
