@@ -19,7 +19,7 @@ router.get('/chat/:id', verifyToken, async (req, res, next) => {
         const col = db.collection('chat');
         let result = await col.find({ $or: [{emailSender: req.query.id}, {emailReciver: req.query.id} ] }).toArray();
         res.send({
-            chat: result,
+            chats: result,
             error: null
         });
     } catch (err) {
@@ -36,7 +36,7 @@ router.get('/', verifyToken, async (req, res, next) => {
         const col = db.collection('chat');
         let result = await col.find().toArray();
         res.send({
-            chat: result,
+            chats: result,
             error: null
         });
     } catch (err) {
