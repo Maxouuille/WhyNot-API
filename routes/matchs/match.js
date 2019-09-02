@@ -13,15 +13,15 @@ const {upload} = require('../../config');
 
 
 router.get('/', verifyToken, async (req, res, next) => {
+    let result;
     const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
     try {
         await client.connect();
         const db = client.db(dbName);
         const col = db.collection('matchs');
-        let result = await col.find().toArray();
+        result = await col.find().toArray();
         res.send({
-            event: result,
-            error: null
+            matchs: result
         });
     } catch (err) {
         res.send(err);
@@ -39,8 +39,7 @@ router.get('/:id', verifyToken, async (req, res, next) => {
         let result = await col.find({ $or: [ {emailUser1: req.query.id}, {emailUser2: req.query.id} ] }).toArray();
         
         res.send({
-            matchs: result,
-            error: null
+            matchs: result
         });
 
     } catch (err) {
