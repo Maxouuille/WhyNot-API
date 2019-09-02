@@ -29,15 +29,15 @@ router.get('/:id', verifyToken, async (req, res, next) => {
     client.close();
 });
 
-router.get('/:id/chat/:id2', verifyToken, async (req, res, next) => {
+router.get('/chats/:id', verifyToken, async (req, res, next) => {
     const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
     try {
         await client.connect();
         const db = client.db(dbName);
         const col = db.collection('chat');
-        let result = await col.find({_id: ObjectId(req.params.id)}).toArray();
+        let result = await col.find({ $or: [ {emailSender: req.query.id}, {emailReciver: req.query.id} ] }).toArray();
         res.send({
-            event: result,
+            chat: result,
             error: null
         });
     } catch (err) {
