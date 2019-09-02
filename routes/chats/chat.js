@@ -12,15 +12,15 @@ const {dateNow} = require('../../config');
 const {upload} = require('../../config');
 
 
-router.get('/:id', verifyToken, async (req, res, next) => {
+router.get('/chats', verifyToken, async (req, res, next) => {
     const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
     try {
         await client.connect();
         const db = client.db(dbName);
-        const col = db.collection('matchs');
-        let result = await col.find({_idUser: ObjectId(req.params.id)}).toArray();
+        const col = db.collection('chat');
+        let result = await col.find().toArray();
         res.send({
-            event: result,
+            chat: result,
             error: null
         });
     } catch (err) {
