@@ -42,14 +42,14 @@ router.get('/login', async function (req, res, next) {
     client.close();
 });
 
-router.get('/user', async function (req, res, next) {
+router.get('/user/:id', async function (req, res, next) {
     const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
     try {
         await client.connect();
         const db = client.db(dbName);
         const col = db.collection('users');
 
-        let result = await col.find({email: req.params.email}).toArray();
+        let result = await col.find({email: req.params.id}).toArray();
         console.log(req.params.email)
         res.send({
             users: result,
