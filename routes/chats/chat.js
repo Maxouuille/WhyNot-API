@@ -45,7 +45,28 @@ router.get('/', verifyToken, async (req, res, next) => {
     client.close();
 });
 
-
-
+router.post('/send', verifyToken, async (req, res, next) => {
+    const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
+    try {
+        await client.connect();
+        const db = client.db(dbName);
+        const col = db.collection('chat');
+        await col.insertOne({
+            emailSender: req.body.emailSender,
+            emailReciver: req.body.emailReciver,
+            message: req.body.message,
+            date:dateNow()
+            
+        });
+        let result = await col.find().toArray();
+        res.send({
+            chats: result,
+            error: null
+        });
+    } catch (err) {
+        res.send(err);
+    }
+    client.close();
+});
 
 module.exports = router;
