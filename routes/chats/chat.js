@@ -12,7 +12,7 @@ const {dateNow} = require('../../config');
 const {upload} = require('../../config');
 
 
-router.get('/chats', verifyToken, async (req, res, next) => {
+router.get('/', verifyToken, async (req, res, next) => {
     const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
     try {
         await client.connect();
@@ -29,7 +29,7 @@ router.get('/chats', verifyToken, async (req, res, next) => {
     client.close();
 });
 
-router.get('/chats/:id', verifyToken, async (req, res, next) => {
+router.get('/:id', verifyToken, async (req, res, next) => {
     const client = new MongoClient(MONGODB_URI, {useNewUrlParser: true});
     try {
         await client.connect();
